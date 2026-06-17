@@ -7,21 +7,21 @@
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-html { height: 100%; }
-
 body {
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg, #b8f0c8 0%, #a0d8f0 50%, #90c8f8 100%);
-  height: 100%;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
 }
 
-/* TITLE */
+#app {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* height set by JS */
+}
+
 .site-title {
   text-align: center;
-  padding: 52px 16px 12px;
   font-size: 24px;
   font-weight: 900;
   color: #fff;
@@ -30,18 +30,18 @@ body {
   -webkit-text-stroke: 1.5px #333;
   text-shadow: 2px 2px 0 #333;
   flex-shrink: 0;
+  padding: 52px 16px 12px;
 }
 
-/* CARD AREA */
 .card-area {
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
-  overflow: hidden;
   padding: 10px 24px;
   min-height: 0;
+  position: relative;
+  overflow: hidden;
 }
 
 .card-stack {
@@ -50,7 +50,6 @@ body {
   height: 100%;
   position: relative;
 }
-
 .card-stack::before {
   content: '';
   position: absolute;
@@ -74,16 +73,12 @@ body {
   justify-content: center;
 }
 
-/* two images — swap without flicker */
-.swipe-card .phone-img {
-  position: absolute;
+.phone-img {
   width: 85%; height: 85%;
   object-fit: contain;
   pointer-events: none;
-  transition: opacity 0.0s;
+  display: block;
 }
-.swipe-card .phone-img.hidden { opacity: 0; }
-.swipe-card .phone-img.visible { opacity: 1; }
 
 .label-add {
   position: absolute; top: 22px; left: 16px;
@@ -114,26 +109,21 @@ body {
 }
 .done-msg.active { display: flex; }
 
-/* BOTTOM NAV */
 .bottom-bar {
   flex-shrink: 0;
-  background: rgba(255,255,255,0.92);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(160,200,240,0.4);
+  background: rgba(255,255,255,0.95);
+  border-top: 1px solid rgba(160,200,240,0.5);
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: 10px 0;
-  /* safe area for iPhone home bar */
-  padding-bottom: calc(10px + env(safe-area-inset-bottom, 16px));
+  /* height set by JS */
 }
 
 .nav-btn {
   display: flex; flex-direction: column;
   align-items: center; gap: 4px;
   background: none; border: none;
-  cursor: pointer; padding: 4px 16px;
+  cursor: pointer; padding: 8px 16px;
   position: relative;
 }
 .nav-btn svg {
@@ -144,7 +134,7 @@ body {
 .nav-label { font-size: 11px; color: #4a9ad4; font-weight: 600; }
 
 .cart-badge {
-  position: absolute; top: -2px; right: 6px;
+  position: absolute; top: 0; right: 6px;
   background: #e83d3d; color: #fff;
   border-radius: 50%; width: 20px; height: 20px;
   font-size: 11px; font-weight: 800;
@@ -152,7 +142,7 @@ body {
 }
 @keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
 
-/* CART OVERLAY */
+/* OVERLAYS */
 .overlay {
   display: none; position: fixed; inset: 0;
   background: rgba(0,0,0,0.32); z-index: 200;
@@ -163,7 +153,7 @@ body {
 .cart-sheet {
   width: 100%; max-width: 430px;
   background: #fff; border-radius: 28px 28px 0 0;
-  padding: 24px 20px 40px;
+  padding: 24px 20px 50px;
   box-shadow: 0 -8px 40px rgba(0,0,0,0.15);
   animation: slideUp 0.28s ease;
   max-height: 80vh;
@@ -194,7 +184,6 @@ body {
   box-shadow: 0 4px 18px rgba(34,197,94,0.35);
 }
 
-/* DELIVERY */
 .delivery-overlay {
   display: none; position: fixed; inset: 0; z-index: 300;
   align-items: center; justify-content: center;
@@ -225,36 +214,37 @@ body {
 </head>
 <body>
 
-<div class="site-title">Buy Now Pay Later</div>
+<div id="app">
+  <div class="site-title">Buy Now Pay Later</div>
 
-<div class="card-area">
-  <div class="card-stack" id="cardStack">
-    <div class="swipe-card" id="swipeCard">
-      <img id="imgA" class="phone-img visible" src="phone1.png" alt="phone">
-      <img id="imgB" class="phone-img hidden"  src="phone2.png" alt="phone">
-      <div class="label-add"  id="labelAdd">ADD</div>
-      <div class="label-skip" id="labelSkip">SKIP</div>
-    </div>
-    <div class="done-msg" id="doneMsg">
-      <p>✅ All phones<br>reviewed!<br><br>Check your cart 🛒</p>
+  <div class="card-area">
+    <div class="card-stack" id="cardStack">
+      <div class="swipe-card" id="swipeCard">
+        <img class="phone-img" id="cardImg" src="phone1.png" alt="phone">
+        <div class="label-add"  id="labelAdd">ADD</div>
+        <div class="label-skip" id="labelSkip">SKIP</div>
+      </div>
+      <div class="done-msg" id="doneMsg">
+        <p>✅ All phones<br>reviewed!<br><br>Check your cart 🛒</p>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="bottom-bar">
-  <button class="nav-btn" onclick="alert('Settings')">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-    <span class="nav-label">Settings</span>
-  </button>
-  <button class="nav-btn" onclick="alert('Search')">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <span class="nav-label">Search</span>
-  </button>
-  <button class="nav-btn" onclick="openCart()">
-    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-    <span class="cart-badge" id="cartBadge">0</span>
-    <span class="nav-label">Cart</span>
-  </button>
+  <div class="bottom-bar" id="bottomBar">
+    <button class="nav-btn" onclick="alert('Settings')">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+      <span class="nav-label">Settings</span>
+    </button>
+    <button class="nav-btn" onclick="alert('Search')">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <span class="nav-label">Search</span>
+    </button>
+    <button class="nav-btn" onclick="openCart()">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+      <span class="nav-label">Cart</span>
+    </button>
+  </div>
 </div>
 
 <div class="overlay" id="cartOverlay">
@@ -273,6 +263,15 @@ body {
 </div>
 
 <script>
+// ── FIT APP TO REAL SCREEN HEIGHT ──
+function setHeight() {
+  var h = window.innerHeight;
+  document.getElementById('app').style.height = h + 'px';
+}
+setHeight();
+window.addEventListener('resize', setHeight);
+
+// ── DATA ──
 var phones = [
   { name: 'iPhone 15 Pro',  src: 'phone1.png' },
   { name: 'iPhone 15',      src: 'phone2.png' },
@@ -282,171 +281,144 @@ var phones = [
   { name: 'iPhone SE',      src: 'phone6.png' }
 ];
 
-// preload all images
-phones.forEach(function(p) {
-  var i = new Image();
-  i.src = p.src;
-});
+// preload
+phones.forEach(function(p){ var i=new Image(); i.src=p.src; });
 
-var idx      = 0;
-var cart     = [];
-var dragging = false;
-var startX   = 0;
-var curX     = 0;
-var tapped   = false;
-
-// double-buffer images
-var imgA   = document.getElementById('imgA');
-var imgB   = document.getElementById('imgB');
-var active = imgA; // currently visible
+var idx=0, cart=[], dragging=false, startX=0, curX=0, tapped=false;
 
 var card   = document.getElementById('swipeCard');
+var cImg   = document.getElementById('cardImg');
 var lAdd   = document.getElementById('labelAdd');
 var lSkip  = document.getElementById('labelSkip');
 var badge  = document.getElementById('cartBadge');
-var done   = document.getElementById('doneMsg');
+var doneEl = document.getElementById('doneMsg');
 
-card.addEventListener('touchstart', function(e) {
-  dragging = true; tapped = true;
-  startX = e.touches[0].clientX; curX = 0;
-  card.style.transition = 'none';
-}, { passive: true });
+// ── DRAG ──
+card.addEventListener('touchstart', function(e){
+  dragging=true; tapped=true;
+  startX=e.touches[0].clientX; curX=0;
+  card.style.transition='none';
+},{passive:true});
 
-card.addEventListener('mousedown', function(e) {
-  dragging = true; tapped = true;
-  startX = e.clientX; curX = 0;
-  card.style.transition = 'none';
+card.addEventListener('mousedown', function(e){
+  dragging=true; tapped=true;
+  startX=e.clientX; curX=0;
+  card.style.transition='none';
 });
 
-window.addEventListener('touchmove', function(e) {
-  if (!dragging) return;
-  curX = e.touches[0].clientX - startX;
-  if (Math.abs(curX) > 8) tapped = false;
+window.addEventListener('touchmove', function(e){
+  if(!dragging) return;
+  curX=e.touches[0].clientX-startX;
+  if(Math.abs(curX)>8) tapped=false;
   applyDrag();
-}, { passive: true });
+},{passive:true});
 
-window.addEventListener('mousemove', function(e) {
-  if (!dragging) return;
-  curX = e.clientX - startX;
-  if (Math.abs(curX) > 8) tapped = false;
+window.addEventListener('mousemove', function(e){
+  if(!dragging) return;
+  curX=e.clientX-startX;
+  if(Math.abs(curX)>8) tapped=false;
   applyDrag();
 });
 
 window.addEventListener('touchend', finish);
 window.addEventListener('mouseup',  finish);
 
-function applyDrag() {
-  card.style.transform = 'translateX(' + curX + 'px) rotate(' + (curX * 0.07) + 'deg)';
-  var r = Math.min(Math.abs(curX) / 90, 1);
-  lAdd.style.opacity  = curX > 0 ? r : 0;
-  lSkip.style.opacity = curX < 0 ? r : 0;
+function applyDrag(){
+  card.style.transform='translateX('+curX+'px) rotate('+(curX*0.07)+'deg)';
+  var r=Math.min(Math.abs(curX)/90,1);
+  lAdd.style.opacity  = curX>0 ? r : 0;
+  lSkip.style.opacity = curX<0 ? r : 0;
 }
 
-function finish() {
-  if (!dragging) return;
-  dragging = false;
-
-  if (tapped && Math.abs(curX) < 8) {
-    addCurrent(); return;
+function finish(){
+  if(!dragging) return;
+  dragging=false;
+  if(tapped && Math.abs(curX)<8){ addCurrent(); return; }
+  if(curX < -80)      animateOut('left',  false);
+  else if(curX > 80)  addCurrent();
+  else {
+    card.style.transition='transform 0.3s';
+    card.style.transform='none';
+    lAdd.style.opacity=0; lSkip.style.opacity=0;
   }
-  if (curX < -80) {
-    animateOut('left', false);
-  } else if (curX > 80) {
-    addCurrent();
-  } else {
-    card.style.transition = 'transform 0.3s';
-    card.style.transform  = 'none';
-    lAdd.style.opacity = 0; lSkip.style.opacity = 0;
-  }
-  curX = 0;
+  curX=0;
 }
 
-function addCurrent() {
-  cart.push({ name: phones[idx].name, src: phones[idx].src });
+function addCurrent(){
+  cart.push({name:phones[idx].name, src:phones[idx].src});
   updateBadge();
   animateOut('right', true);
 }
 
-function animateOut(dir, added) {
-  // prepare next image on inactive buffer BEFORE animation starts
-  var nextIdx = idx + 1;
-  if (nextIdx < phones.length) {
-    var inactive = (active === imgA) ? imgB : imgA;
-    inactive.src = phones[nextIdx].src;
-  }
+function animateOut(dir, added){
+  var nextIdx = idx+1;
 
-  card.style.transition = 'transform 0.38s ease, opacity 0.38s ease';
-  card.style.transform  = dir === 'right'
+  card.style.transition='transform 0.38s ease, opacity 0.38s ease';
+  card.style.transform = dir==='right'
     ? 'translateX(140%) rotate(25deg)'
     : 'translateX(-140%) rotate(-25deg)';
-  card.style.opacity = '0';
+  card.style.opacity='0';
   lAdd.style.opacity  = added ? 1 : 0;
   lSkip.style.opacity = added ? 0 : 1;
 
-  setTimeout(function() {
+  setTimeout(function(){
     idx++;
-    lAdd.style.opacity = 0; lSkip.style.opacity = 0;
-    card.style.transition = 'none';
-    card.style.transform  = 'none';
-    card.style.opacity    = '1';
+    lAdd.style.opacity=0; lSkip.style.opacity=0;
+    card.style.transition='none';
+    card.style.transform='none';
 
-    if (idx < phones.length) {
-      // swap buffers — inactive already has the new src
-      var inactive = (active === imgA) ? imgB : imgA;
-      inactive.classList.remove('hidden');
-      inactive.classList.add('visible');
-      active.classList.remove('visible');
-      active.classList.add('hidden');
-      active = inactive;
+    if(idx < phones.length){
+      // set image BEFORE making card visible
+      cImg.src = phones[idx].src;
+      card.style.opacity='1';
     } else {
-      card.style.display = 'none';
-      done.classList.add('active');
+      card.style.display='none';
+      doneEl.classList.add('active');
     }
   }, 380);
 }
 
-function updateBadge() {
-  var n = cart.length;
-  badge.style.display = n > 0 ? 'flex' : 'none';
-  badge.textContent = n;
-  badge.style.animation = 'none';
+function updateBadge(){
+  var n=cart.length;
+  badge.style.display = n>0 ? 'flex' : 'none';
+  badge.textContent=n;
+  badge.style.animation='none';
   badge.offsetHeight;
-  badge.style.animation = 'pop 0.3s cubic-bezier(.34,1.56,.64,1)';
+  badge.style.animation='pop 0.3s cubic-bezier(.34,1.56,.64,1)';
 }
 
-function openCart() {
-  var list = document.getElementById('cartItems');
-  list.innerHTML = '';
-  if (cart.length === 0) {
-    list.innerHTML = '<p style="text-align:center;color:#aac;padding:20px 0">Cart is empty</p>';
+function openCart(){
+  var list=document.getElementById('cartItems');
+  list.innerHTML='';
+  if(!cart.length){
+    list.innerHTML='<p style="text-align:center;color:#aac;padding:20px 0">Cart is empty</p>';
   } else {
-    cart.forEach(function(item) {
-      var row  = document.createElement('div');
-      row.className = 'cart-item';
-      var img  = document.createElement('img');
-      img.className = 'cart-item-img'; img.src = item.src; img.alt = item.name;
-      var name = document.createElement('span');
-      name.className = 'cart-item-name'; name.textContent = item.name;
-      row.appendChild(img); row.appendChild(name);
+    cart.forEach(function(item){
+      var row=document.createElement('div'); row.className='cart-item';
+      var img=document.createElement('img');
+      img.className='cart-item-img'; img.src=item.src; img.alt=item.name;
+      var nm=document.createElement('span');
+      nm.className='cart-item-name'; nm.textContent=item.name;
+      row.appendChild(img); row.appendChild(nm);
       list.appendChild(row);
     });
   }
   document.getElementById('cartOverlay').classList.add('active');
 }
 
-function onPayLater() {
+function onPayLater(){
   document.getElementById('cartOverlay').classList.remove('active');
   document.getElementById('deliveryOverlay').classList.add('active');
-  setTimeout(function() {
+  setTimeout(function(){
     document.getElementById('deliveryOverlay').classList.remove('active');
-    cart = []; updateBadge();
-  }, 4000);
+    cart=[]; updateBadge();
+  },4000);
 }
 
-document.getElementById('cartOverlay').addEventListener('click', function(e) {
-  if (e.target === this) this.classList.remove('active');
+document.getElementById('cartOverlay').addEventListener('click',function(e){
+  if(e.target===this) this.classList.remove('active');
 });
-document.getElementById('deliveryOverlay').addEventListener('click', function() {
+document.getElementById('deliveryOverlay').addEventListener('click',function(){
   this.classList.remove('active');
 });
 </script>
