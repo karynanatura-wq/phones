@@ -11,8 +11,7 @@ body {
   font-family: 'Segoe UI', sans-serif;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
+  overflow: hidden;
 }
 
 body::before {
@@ -450,6 +449,13 @@ document.getElementById('cartOverlay').addEventListener('click',function(e){
 document.getElementById('deliveryOverlay').addEventListener('click',function(){
   this.classList.remove('active');
 });
+
+// Fix iPhone Safari height — window.innerHeight = real visible area
+function fixHeight() {
+  document.body.style.height = window.innerHeight + 'px';
+}
+fixHeight();
+window.addEventListener('resize', fixHeight);
 </script>
 </body>
 </html>
