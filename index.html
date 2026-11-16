@@ -2,346 +2,334 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Buy Now Pay Later</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+:root{
+  --bg:#F4F0FF; --card:#FFFFFF; --soft:#F1EBFF; --line:#E7DFFB; --ink:#1B1035; --ink-2:#7A6F98;
+  --purple:#7C3AED; --purple-d:#4C1D95; --grad:linear-gradient(135deg,#9B5CFF 0%,#6D28D9 100%);
+  --ok:#16A36B; --no:#E5484D;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{height:100%}
+body{height:100%;font-family:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);overflow:hidden;
+  background:radial-gradient(120% 60% at 50% 0%,#E9DDFF 0%,var(--bg) 60%)}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+button:focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:12px}
 
-html, body {
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-  background: linear-gradient(135deg, #b8f0c8 0%, #a0d8f0 50%, #90c8f8 100%);
-  background-attachment: fixed;
-  font-family: 'Segoe UI', sans-serif;
-}
+.app{position:relative;max-width:440px;height:100%;margin:0 auto;display:flex;flex-direction:column;overflow:hidden}
 
-body {
-  display: flex;
-  flex-direction: column;
-}
+/* header */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 4px}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:38px;height:38px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;box-shadow:0 8px 18px -8px rgba(109,40,217,.7)}
+.brand b{font-size:18px;font-weight:800;letter-spacing:-.3px;display:block;line-height:1.1}
+.brand small{font-size:12px;color:var(--ink-2)}
+.progress{font-size:13px;font-weight:700;color:var(--purple-d);background:var(--card);border:1px solid var(--line);padding:7px 12px;border-radius:20px}
+.hint{padding:6px 18px 0;font-size:13.5px;color:var(--ink-2)}
 
-.site-title {
-  text-align: center;
-  padding: 52px 16px 12px;
-  font-size: 24px;
-  font-weight: 900;
-  color: #fff;
-  text-transform: uppercase;
-  letter-spacing: 2px;
-  -webkit-text-stroke: 1.5px #333;
-  text-shadow: 2px 2px 0 #333;
-  flex-shrink: 0;
-}
+/* stack */
+.card-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 24px 0;min-height:0}
+.stack{position:relative;width:100%;max-width:330px;aspect-ratio:3/4.1;max-height:100%}
+.pcard{position:absolute;inset:0;background:var(--card);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 22px 44px -22px rgba(76,29,149,.45),0 0 0 1px var(--line);touch-action:none;cursor:grab;
+  transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s;user-select:none;-webkit-user-select:none}
+.pcard:active{cursor:grabbing}
+.pcard .shot{flex:1;min-height:0;display:grid;place-items:center;background:radial-gradient(80% 70% at 50% 40%,#F3ECFF 0%,#E4D6FF 100%);position:relative}
+.pcard .shot img,.pcard .shot svg{height:82%;max-width:80%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 18px 20px rgba(76,29,149,.3))}
+.pcard .tag{position:absolute;left:14px;top:14px;font-size:11.5px;font-weight:700;color:#fff;background:var(--purple);padding:5px 10px;border-radius:10px}
+.pcard .info{padding:14px 18px 16px}
+.pcard .info b{font-size:20px;font-weight:800;letter-spacing:-.4px}
+.pcard .info .row{display:flex;justify-content:space-between;align-items:baseline;margin-top:4px}
+.pcard .info small{font-size:13px;color:var(--ink-2)}
+.pcard .info strong{font-size:18px;font-weight:800}
+.pcard .bnpl{margin-top:10px;font-size:12.5px;color:var(--purple-d);background:var(--soft);border-radius:10px;padding:8px 10px;font-weight:600}
+.stamp{position:absolute;top:26px;font-size:22px;font-weight:900;letter-spacing:2px;padding:4px 12px;border-radius:12px;border:4px solid;opacity:0;pointer-events:none;z-index:3;background:rgba(255,255,255,.85)}
+.stamp.add{left:18px;color:var(--ok);border-color:var(--ok);transform:rotate(-16deg)}
+.stamp.skip{right:18px;color:var(--no);border-color:var(--no);transform:rotate(16deg)}
 
-.card-area {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 24px 80px;
-  position: relative;
-}
+.done{position:absolute;inset:0;background:var(--card);border-radius:28px;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;
+  box-shadow:0 22px 44px -22px rgba(76,29,149,.45),0 0 0 1px var(--line);animation:pop .4s cubic-bezier(.3,1.5,.5,1)}
+.done.show{display:flex}
+.done .big{font-size:56px}
+.done h2{font-size:22px;font-weight:800;margin-top:10px}
+.done p{font-size:14px;color:var(--ink-2);margin-top:6px}
+.done .btn{margin-top:18px;width:100%}
+.done .link{margin-top:10px;font-size:14px;font-weight:600;color:var(--purple)}
+@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
 
-.card-stack {
-  width: 100%;
-  max-width: 320px;
-  aspect-ratio: 3/4;
-  position: relative;
-}
+/* action buttons */
+.actions{display:flex;justify-content:center;align-items:center;gap:22px;padding:18px 0 14px}
+.act{width:62px;height:62px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:0 12px 24px -12px rgba(76,29,149,.5),0 0 0 1px var(--line);transition:transform .15s}
+.act:active{transform:scale(.9)}
+.act svg{width:26px;height:26px}
+.act.skip{color:var(--no)}
+.act.add{width:72px;height:72px;background:var(--grad);color:#fff;box-shadow:0 14px 26px -10px rgba(109,40,217,.75)}
+.act.add svg{width:30px;height:30px}
+.act.undo{width:48px;height:48px;color:var(--ink-2)}
+.act.undo svg{width:20px;height:20px}
+.act:disabled{opacity:.35;pointer-events:none}
 
-.card-stack::before {
-  content: '';
-  position: absolute;
-  inset: 8px -6px -8px 6px;
-  background: rgba(255,255,255,0.3);
-  border-radius: 26px;
-}
+/* tab bar */
+.tabbar{display:flex;background:var(--card);border-top:1px solid var(--line);padding:8px 8px 10px;flex-shrink:0}
+.tab{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--ink-2);font-weight:500}
+.tab svg{width:23px;height:23px}
+.tab.on{color:var(--purple);font-weight:700}
+.badge{position:absolute;top:-4px;left:calc(50% + 4px);min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--no);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid var(--card);transform:scale(0);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.badge.on{transform:scale(1)}
+.tab.bump svg{animation:bump .45s ease}
+@keyframes bump{30%{transform:scale(1.3) rotate(-10deg)}60%{transform:scale(.9)}}
 
-.phone-frame {
-  position: absolute;
-  inset: 0;
-  background: #fff;
-  border-radius: 24px;
-  overflow: hidden;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 8px 32px rgba(0,100,180,0.15);
-  cursor: grab;
-  touch-action: none;
-  z-index: 1;
-}
-.phone-frame.active { display: flex; }
-.phone-frame img {
-  width: 85%; height: 85%;
-  object-fit: contain;
-  pointer-events: none;
-}
+/* sheet */
+.scrim{position:absolute;inset:0;background:rgba(27,16,53,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:50;backdrop-filter:blur(3px)}
+.scrim.open{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;max-height:85%;background:var(--card);border-radius:28px 28px 0 0;z-index:51;
+  transform:translateY(105%);transition:transform .38s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;padding:10px 18px 18px}
+.sheet.open{transform:none}
+.grab{width:42px;height:5px;border-radius:5px;background:var(--line);margin:0 auto 14px}
+.sheet h2{font-size:24px;font-weight:800;letter-spacing:-.5px}
+.items{overflow-y:auto;margin:14px 0 6px;flex:1}
+.ci{display:flex;align-items:center;gap:12px;background:var(--soft);border-radius:18px;padding:10px;margin-bottom:8px;animation:pop .3s ease}
+.ci .th{width:54px;height:62px;border-radius:12px;background:#fff;display:grid;place-items:center;flex-shrink:0}
+.ci .th img,.ci .th svg{height:54px;max-width:46px;object-fit:contain}
+.ci .mid{flex:1}
+.ci b{font-size:15px;display:block}
+.ci small{font-size:12.5px;color:var(--ink-2)}
+.ci .p{font-weight:800;text-align:right}
+.ci .x{display:block;margin:3px 0 0 auto;font-size:12px;color:var(--no);font-weight:600}
+.empty{text-align:center;color:var(--ink-2);padding:30px 0;font-size:14px}
+.empty div{font-size:40px;margin-bottom:8px}
+.plan{background:var(--soft);border-radius:16px;padding:12px 14px}
+.plan .lbl{font-size:13px;color:var(--ink-2);margin-bottom:10px}
+.plan .lbl b{color:var(--ink)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.step{text-align:center;font-size:11.5px;color:var(--ink-2)}
+.step i{display:block;height:5px;border-radius:5px;background:var(--line);margin-bottom:6px}
+.step.now i{background:var(--purple)}
+.step b{display:block;font-size:13px;color:var(--ink);margin-top:1px}
+.tot{display:flex;justify-content:space-between;align-items:baseline;padding:12px 2px 0}
+.tot span{color:var(--ink-2);font-size:14px}
+.tot b{font-size:21px;font-weight:800}
+.btn{width:100%;margin-top:12px;background:var(--grad);color:#fff;border-radius:18px;padding:17px;font-size:16.5px;font-weight:800;letter-spacing:.3px;transition:transform .12s,opacity .2s;box-shadow:0 14px 26px -14px rgba(109,40,217,.8)}
+.btn:active{transform:scale(.98)}
+.btn:disabled{opacity:.4}
 
-.label-add {
-  position: absolute; top: 22px; left: 16px;
-  border: 4px solid #22c55e; color: #22c55e;
-  font-size: 22px; font-weight: 900;
-  padding: 4px 12px; border-radius: 10px;
-  transform: rotate(-20deg); opacity: 0;
-  pointer-events: none; z-index: 2;
-  text-transform: uppercase; letter-spacing: 2px;
-}
-.label-skip {
-  position: absolute; top: 22px; right: 16px;
-  border: 4px solid #ef4444; color: #ef4444;
-  font-size: 22px; font-weight: 900;
-  padding: 4px 12px; border-radius: 10px;
-  transform: rotate(20deg); opacity: 0;
-  pointer-events: none; z-index: 2;
-  text-transform: uppercase; letter-spacing: 2px;
-}
+/* delivery */
+#delivery{position:absolute;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:28px;
+  background:rgba(124,58,237,.12);backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0);opacity:0;pointer-events:none;transition:opacity .35s,backdrop-filter .35s,-webkit-backdrop-filter .35s}
+#delivery.show{opacity:1;pointer-events:auto;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.dbox{width:100%;max-width:320px;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:28px;padding:26px 22px;text-align:center;
+  box-shadow:0 30px 60px -30px rgba(76,29,149,.6);transform:scale(.8);transition:transform .45s cubic-bezier(.3,1.5,.5,1)}
+#delivery.show .dbox{transform:none}
+.road{position:relative;height:84px;overflow:hidden;margin-bottom:12px}
+.road::after{content:"";position:absolute;left:0;right:0;bottom:10px;height:3px;background:repeating-linear-gradient(90deg,#C9B6F5 0 22px,transparent 22px 40px);animation:dash .45s linear infinite}
+@keyframes dash{to{background-position:-40px 0}}
+.car{position:absolute;bottom:14px;left:50%;font-size:58px;line-height:1;transform:translateX(-50%) scaleX(-1);animation:bounce .3s ease-in-out infinite alternate}
+@keyframes bounce{to{transform:translateX(-50%) scaleX(-1) translateY(-3px)}}
+.dbox h2{font-size:24px;font-weight:800}
+.dbox p{font-size:13.5px;color:var(--ink-2);margin-top:4px}
+.bar{height:6px;border-radius:6px;background:var(--line);margin-top:18px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--grad);border-radius:6px}
+#delivery.show .bar i{animation:load 3.6s linear forwards}
+@keyframes load{to{width:100%}}
 
-.done-msg {
-  display: none;
-  position: absolute; inset: 0;
-  align-items: center; justify-content: center;
-  font-size: 20px; font-weight: 700;
-  color: #1a5a8a; text-align: center; line-height: 1.6;
-  background: #fff; border-radius: 24px; z-index: 5;
-}
-.done-msg.active { display: flex; }
-
-.bottom-bar {
-  flex-shrink: 0;
-  background: rgba(255,255,255,0.95);
-  border-top: 1px solid rgba(160,200,240,0.5);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 10px 0 34px;
-}
-
-.nav-btn {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 4px;
-  background: none; border: none;
-  cursor: pointer; padding: 4px 16px;
-  position: relative;
-}
-.nav-btn svg {
-  width: 26px; height: 26px;
-  stroke: #4a9ad4; fill: none;
-  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-}
-.nav-label { font-size: 11px; color: #4a9ad4; font-weight: 600; }
-
-.cart-badge {
-  position: absolute; top: -2px; right: 6px;
-  background: #e83d3d; color: #fff;
-  border-radius: 50%; width: 20px; height: 20px;
-  font-size: 11px; font-weight: 800;
-  display: none; align-items: center; justify-content: center;
-}
-@keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
-
-.overlay {
-  display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.32); z-index: 200;
-  align-items: flex-end; justify-content: center;
-}
-.overlay.active { display: flex; }
-
-.cart-sheet {
-  width: 100%; max-width: 430px;
-  background: #fff; border-radius: 28px 28px 0 0;
-  padding: 24px 20px 50px;
-  animation: slideUp 0.28s ease;
-  max-height: 80vh;
-  display: flex; flex-direction: column;
-}
-@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
-
-.cart-title { font-size: 20px; font-weight: 800; color: #1a3a5c; text-align: center; margin-bottom: 18px; }
-.cart-items { flex: 1; overflow-y: auto; }
-.cart-item {
-  display: flex; align-items: center; gap: 14px;
-  padding: 10px 0; border-bottom: 1px solid #e8f0f8;
-}
-.cart-item:last-of-type { border-bottom: none; }
-.cart-item-img {
-  width: 58px; height: 58px;
-  border-radius: 12px; background: #f0f4f8;
-  object-fit: contain; flex-shrink: 0; padding: 4px;
-}
-.cart-item-name { font-size: 15px; font-weight: 700; color: #1a3a5c; }
-
-.pay-btn {
-  margin-top: 18px; width: 100%;
-  background: #22c55e; color: #fff;
-  border: none; border-radius: 16px;
-  padding: 16px; font-size: 18px; font-weight: 900;
-  letter-spacing: 1px; cursor: pointer;
-}
-
-.delivery-overlay {
-  display: none; position: fixed; inset: 0; z-index: 300;
-  align-items: center; justify-content: center;
-}
-.delivery-overlay.active {
-  display: flex;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  background: rgba(160,220,255,0.2);
-}
-.delivery-card {
-  display: flex; flex-direction: column;
-  align-items: center; gap: 14px;
-  animation: popIn 0.4s cubic-bezier(.34,1.56,.64,1);
-}
-@keyframes popIn { from{transform:scale(0.3);opacity:0} to{transform:scale(1);opacity:1} }
-.delivery-icon { font-size: 80px; }
-.delivery-text {
-  font-size: 34px; font-weight: 900; color: #fff; letter-spacing: 2px;
-  animation: glow 1s ease-in-out infinite alternate;
-}
-@keyframes glow {
-  from { text-shadow: 0 0 20px rgba(100,200,255,0.8); }
-  to   { text-shadow: 0 0 40px #fff, 0 0 80px rgba(100,200,255,1); }
-}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
 </head>
 <body>
+<div class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">BN</div><div><b>Buy Now Pay Later</b><small>Pay in 4 · no interest</small></div></div>
+    <span class="progress" id="progress">1 / 6</span>
+  </header>
+  <p class="hint">Swipe right to add, left to skip</p>
 
-<div class="site-title">Buy Now Pay Later</div>
-
-<div class="card-area">
-  <div class="card-stack">
-    <div class="phone-frame active" id="frame0"><img src="phone1.png" alt="iPhone 15 Pro"><div class="label-add" id="lAdd0">ADD</div><div class="label-skip" id="lSkip0">SKIP</div></div>
-    <div class="phone-frame"        id="frame1"><img src="phone2.png" alt="iPhone 15"><div class="label-add" id="lAdd1">ADD</div><div class="label-skip" id="lSkip1">SKIP</div></div>
-    <div class="phone-frame"        id="frame2"><img src="phone3.png" alt="iPhone 14 Pro"><div class="label-add" id="lAdd2">ADD</div><div class="label-skip" id="lSkip2">SKIP</div></div>
-    <div class="phone-frame"        id="frame3"><img src="phone4.png" alt="iPhone 14"><div class="label-add" id="lAdd3">ADD</div><div class="label-skip" id="lSkip3">SKIP</div></div>
-    <div class="phone-frame"        id="frame4"><img src="phone5.png" alt="iPhone 13"><div class="label-add" id="lAdd4">ADD</div><div class="label-skip" id="lSkip4">SKIP</div></div>
-    <div class="phone-frame"        id="frame5"><img src="phone6.png" alt="iPhone SE"><div class="label-add" id="lAdd5">ADD</div><div class="label-skip" id="lSkip5">SKIP</div></div>
-    <div class="done-msg" id="doneMsg"><p>✅ All phones<br>reviewed!<br><br>Check your cart 🛒</p></div>
+  <div class="card-area">
+    <div class="stack" id="stack">
+      <div class="done" id="done">
+        <div class="big">🎉</div>
+        <h2>All phones reviewed</h2>
+        <p id="doneText">Your picks are waiting in the cart</p>
+        <button class="btn" onclick="openCart()">Open cart</button>
+        <button class="link" onclick="restart()">Start over</button>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="bottom-bar">
-  <button class="nav-btn" onclick="alert('Settings')">
-    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
-    <span class="nav-label">Settings</span>
-  </button>
-  <button class="nav-btn" onclick="alert('Search')">
-    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-    <span class="nav-label">Search</span>
-  </button>
-  <button class="nav-btn" onclick="openCart()">
-    <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-    <span class="cart-badge" id="cartBadge">0</span>
-    <span class="nav-label">Cart</span>
-  </button>
-</div>
-
-<div class="overlay" id="cartOverlay">
-  <div class="cart-sheet">
-    <div class="cart-title">🛒 Your Cart</div>
-    <div class="cart-items" id="cartItems"></div>
-    <button class="pay-btn" onclick="onPayLater()">PAY LATER</button>
+  <div class="actions">
+    <button class="act undo" id="undoBtn" onclick="undo()" aria-label="Undo" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+    <button class="act skip" id="skipBtn" onclick="decide(false)" aria-label="Skip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
+    <button class="act add" id="addBtn" onclick="decide(true)" aria-label="Add to cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
   </div>
-</div>
 
-<div class="delivery-overlay" id="deliveryOverlay">
-  <div class="delivery-card">
-    <div class="delivery-icon">🚗</div>
-    <div class="delivery-text">Delivering...</div>
+  <nav class="tabbar">
+    <button class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Shop</button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search</button>
+    <button class="tab" id="cartTab" onclick="openCart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" id="badge">0</span>Cart</button>
+    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Profile</button>
+  </nav>
+
+  <div class="scrim" id="scrim" onclick="closeCart()"></div>
+  <section class="sheet" id="sheet" aria-label="Cart">
+    <div class="grab"></div>
+    <h2>Your cart</h2>
+    <div class="items" id="items"></div>
+    <button class="btn" id="payBtn" onclick="payLater()">CLAIM</button>
+  </section>
+
+  <div id="delivery" onclick="closeDelivery()">
+    <div class="dbox">
+      <div class="road"><div class="car">🚗</div></div>
+      <h2 id="dTitle">Delivering…</h2>
+      <p id="dText">Your phones are on the way</p>
+      <div class="bar"><i></i></div>
+    </div>
   </div>
 </div>
 
 <script>
+// Фото: phone1.png … phone6.png у тій самій папці, що й index.html
 var phones = [
-  { name:'iPhone 15 Pro', src:'phone1.png' },
-  { name:'iPhone 15',     src:'phone2.png' },
-  { name:'iPhone 14 Pro', src:'phone3.png' },
-  { name:'iPhone 14',     src:'phone4.png' },
-  { name:'iPhone 13',     src:'phone5.png' },
-  { name:'iPhone SE',     src:'phone6.png' }
+  {name:'iPhone 15 Pro', src:'phone1.png', mem:'256 GB · Natural Titanium', price:999, tag:'Bestseller', c:'#8E8A84'},
+  {name:'iPhone 15',     src:'phone2.png', mem:'128 GB · Pink',             price:799, tag:null, c:'#F2C6D0'},
+  {name:'iPhone 14 Pro', src:'phone3.png', mem:'256 GB · Deep Purple',      price:899, tag:null, c:'#5B4B7A'},
+  {name:'iPhone 14',     src:'phone4.png', mem:'128 GB · Midnight',         price:699, tag:'−15%', c:'#2A2D36'},
+  {name:'iPhone 13',     src:'phone5.png', mem:'128 GB · Starlight',        price:599, tag:null, c:'#EDE6DA'},
+  {name:'iPhone SE',     src:'phone6.png', mem:'64 GB · Red',               price:429, tag:'Budget', c:'#C8323C'}
 ];
+var idx = 0, cart = [], hist = [], busy = false;
+var $ = function(id){ return document.getElementById(id); };
+var money = function(v){ return '$' + v.toLocaleString('en-US', {minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits:2}); };
 
-var idx=0, cart=[], dragging=false, startX=0, curX=0, tapped=false;
+function phoneSVG(c){
+  return '<svg viewBox="0 0 80 160"><rect x="4" y="2" width="72" height="156" rx="14" fill="'+c+'"/><rect x="8" y="6" width="64" height="148" rx="11" fill="#0E0B18"/>' +
+    '<rect x="30" y="12" width="20" height="6" rx="3" fill="#000"/><rect x="12" y="26" width="56" height="40" rx="8" fill="#3B2A6B" opacity=".8"/></svg>';
+}
+function img(p){ return '<img src="'+p.src+'" alt="'+p.name+'" onerror="this.outerHTML=phoneSVG(\''+p.c+'\')">'; }
 
-function frame(i)  { return document.getElementById('frame'+i); }
-function lAdd(i)   { return document.getElementById('lAdd'+i);  }
-function lSkip(i)  { return document.getElementById('lSkip'+i); }
+// build stack
+var stack = $('stack');
+phones.forEach(function(p, i){
+  var el = document.createElement('div');
+  el.className = 'pcard'; el.id = 'c'+i;
+  el.innerHTML = '<div class="shot">'+(p.tag?'<span class="tag">'+p.tag+'</span>':'')+img(p)+'</div>' +
+    '<div class="info"><b>'+p.name+'</b><div class="row"><small>'+p.mem+'</small></div></div>' +
+    '<div class="stamp add">ADD</div><div class="stamp skip">SKIP</div>';
+  stack.appendChild(el);
+  bindDrag(el, i);
+});
+layout();
 
-var badge  = document.getElementById('cartBadge');
-var doneEl = document.getElementById('doneMsg');
-
-for(var i=0;i<6;i++){
-  (function(n){
-    var f=frame(n);
-    f.addEventListener('touchstart',function(e){ if(n!==idx)return; dragging=true;tapped=true;startX=e.touches[0].clientX;curX=0;f.style.transition='none'; },{passive:true});
-    f.addEventListener('mousedown', function(e){ if(n!==idx)return; dragging=true;tapped=true;startX=e.clientX;curX=0;f.style.transition='none'; });
-  })(i);
+function layout(){
+  phones.forEach(function(p, i){
+    var el = $('c'+i), d = i - idx;
+    if (d < 0){ el.style.display = 'none'; return; }
+    el.style.display = d > 2 ? 'none' : '';
+    el.style.zIndex = 10 - d;
+    el.style.transform = 'translateY('+(d*14)+'px) scale('+(1 - d*.05)+')';
+    el.style.opacity = d === 2 ? .6 : 1;
+    el.style.pointerEvents = d === 0 ? 'auto' : 'none';
+  });
+  $('progress').textContent = Math.min(idx + 1, phones.length) + ' / ' + phones.length;
+  var finished = idx >= phones.length;
+  $('done').classList.toggle('show', finished);
+  if (finished) $('doneText').textContent = cart.length ? 'You picked ' + cart.length + (cart.length===1?' phone':' phones') + ' — they’re in your cart' : 'Nothing picked yet — start over to browse again';
+  $('skipBtn').disabled = $('addBtn').disabled = finished;
+  $('undoBtn').disabled = !hist.length;
 }
 
-window.addEventListener('touchmove',function(e){ if(!dragging)return; curX=e.touches[0].clientX-startX; if(Math.abs(curX)>8)tapped=false; drag(); },{passive:true});
-window.addEventListener('mousemove', function(e){ if(!dragging)return; curX=e.clientX-startX; if(Math.abs(curX)>8)tapped=false; drag(); });
-window.addEventListener('touchend', finish);
-window.addEventListener('mouseup',  finish);
-
-function drag(){
-  var f=frame(idx);
-  f.style.transform='translateX('+curX+'px) rotate('+(curX*0.07)+'deg)';
-  var r=Math.min(Math.abs(curX)/90,1);
-  lAdd(idx).style.opacity=curX>0?r:0;
-  lSkip(idx).style.opacity=curX<0?r:0;
+function bindDrag(el, i){
+  var sx = 0, dx = 0, down = false, moved = false;
+  function start(x){ if (i !== idx || busy) return; down = true; moved = false; sx = x; dx = 0; el.style.transition = 'none'; }
+  function move(x){
+    if (!down) return; dx = x - sx; if (Math.abs(dx) > 8) moved = true;
+    el.style.transform = 'translateX('+dx+'px) rotate('+(dx*.06)+'deg)';
+    var r = Math.min(Math.abs(dx)/90, 1);
+    el.querySelector('.stamp.add').style.opacity = dx > 0 ? r : 0;
+    el.querySelector('.stamp.skip').style.opacity = dx < 0 ? r : 0;
+  }
+  function end(){
+    if (!down) return; down = false; el.style.transition = '';
+    if (!moved){ decide(true); return; }
+    if (dx > 90) decide(true);
+    else if (dx < -90) decide(false);
+    else { el.style.transform = ''; el.querySelectorAll('.stamp').forEach(function(s){ s.style.opacity = 0; }); layout(); }
+  }
+  el.addEventListener('touchstart', function(e){ start(e.touches[0].clientX); }, {passive:true});
+  el.addEventListener('mousedown', function(e){ start(e.clientX); });
+  window.addEventListener('touchmove', function(e){ if (down) move(e.touches[0].clientX); }, {passive:true});
+  window.addEventListener('mousemove', function(e){ move(e.clientX); });
+  window.addEventListener('touchend', end);
+  window.addEventListener('mouseup', end);
 }
 
-function finish(){
-  if(!dragging)return; dragging=false;
-  if(tapped&&Math.abs(curX)<8){ addCurrent(); return; }
-  if(curX<-80) animateOut('left',false);
-  else if(curX>80) addCurrent();
-  else { var f=frame(idx); f.style.transition='transform 0.3s'; f.style.transform='none'; lAdd(idx).style.opacity=0; lSkip(idx).style.opacity=0; }
-  curX=0;
-}
-
-function addCurrent(){ cart.push({name:phones[idx].name,src:phones[idx].src}); updateBadge(); animateOut('right',true); }
-
-function animateOut(dir,added){
-  var f=frame(idx);
-  f.style.transition='transform 0.38s ease, opacity 0.38s ease';
-  f.style.transform=dir==='right'?'translateX(140%) rotate(25deg)':'translateX(-140%) rotate(-25deg)';
-  f.style.opacity='0';
-  lAdd(idx).style.opacity=added?1:0;
-  lSkip(idx).style.opacity=added?0:1;
+function decide(add){
+  if (busy || idx >= phones.length) return;
+  busy = true;
+  var el = $('c'+idx), p = phones[idx];
+  el.style.transition = 'transform .4s ease, opacity .4s ease';
+  el.querySelector('.stamp.add').style.opacity = add ? 1 : 0;
+  el.querySelector('.stamp.skip').style.opacity = add ? 0 : 1;
+  el.style.transform = 'translateX('+(add?140:-140)+'%) rotate('+(add?24:-24)+'deg)';
+  el.style.opacity = 0;
+  hist.push({i:idx, add:add});
+  if (add){ cart.push(idx); updateBadge(true); }
   setTimeout(function(){
-    f.classList.remove('active'); f.style.transform='none'; f.style.opacity='1';
-    lAdd(idx).style.opacity=0; lSkip(idx).style.opacity=0;
-    idx++;
-    if(idx<phones.length) frame(idx).classList.add('active');
-    else doneEl.classList.add('active');
-  },380);
+    el.style.transition = 'none';
+    el.querySelectorAll('.stamp').forEach(function(s){ s.style.opacity = 0; });
+    idx++; busy = false;
+    requestAnimationFrame(function(){ phones.forEach(function(_, k){ $('c'+k).style.transition = ''; }); layout(); });
+  }, 400);
 }
 
-function updateBadge(){
-  var n=cart.length;
-  badge.style.display=n>0?'flex':'none'; badge.textContent=n;
-  badge.style.animation='none'; badge.offsetHeight; badge.style.animation='pop 0.3s cubic-bezier(.34,1.56,.64,1)';
+function undo(){
+  if (busy || !hist.length) return;
+  var h = hist.pop();
+  if (h.add) cart.splice(cart.lastIndexOf(h.i), 1);
+  idx = h.i; updateBadge(false);
+  var el = $('c'+idx); el.style.opacity = 1; layout();
+}
+function restart(){ idx = 0; hist = []; layout(); }
+
+function updateBadge(bump){
+  var b = $('badge'); b.textContent = cart.length; b.classList.toggle('on', cart.length > 0);
+  if (bump){ var t = $('cartTab'); t.classList.remove('bump'); void t.offsetWidth; t.classList.add('bump'); }
 }
 
-function openCart(){
-  var list=document.getElementById('cartItems'); list.innerHTML='';
-  if(!cart.length){ list.innerHTML='<p style="text-align:center;color:#aac;padding:20px 0">Cart is empty</p>'; }
-  else { cart.forEach(function(item){ var row=document.createElement('div'); row.className='cart-item'; var img=document.createElement('img'); img.className='cart-item-img'; img.src=item.src; img.alt=item.name; var nm=document.createElement('span'); nm.className='cart-item-name'; nm.textContent=item.name; row.appendChild(img); row.appendChild(nm); list.appendChild(row); }); }
-  document.getElementById('cartOverlay').classList.add('active');
+function renderCart(){
+  $('items').innerHTML = cart.length ? cart.map(function(i){
+    var p = phones[i];
+    return '<div class="ci"><div class="th">'+img(p)+'</div><div class="mid"><b>'+p.name+'</b><small>'+p.mem+'</small></div>' +
+      '<div><button class="x" onclick="removeItem('+i+')">Remove</button></div></div>';
+  }).join('') : '<div class="empty"><div>🛒</div>Your cart is empty.<br>Swipe right on a phone to add it.</div>';
+  $('payBtn').disabled = !cart.length;
 }
+function removeItem(i){ cart.splice(cart.indexOf(i), 1); updateBadge(false); renderCart(); }
+function openCart(){ renderCart(); $('sheet').classList.add('open'); $('scrim').classList.add('open'); }
+function closeCart(){ $('sheet').classList.remove('open'); $('scrim').classList.remove('open'); }
 
-function onPayLater(){
-  document.getElementById('cartOverlay').classList.remove('active');
-  document.getElementById('deliveryOverlay').classList.add('active');
-  setTimeout(function(){ document.getElementById('deliveryOverlay').classList.remove('active'); cart=[]; updateBadge(); },4000);
+var dTimer;
+function payLater(){
+  if (!cart.length) return;
+  closeCart();
+  var n = cart.length;
+  $('dTitle').textContent = 'Delivering…';
+  $('dText').textContent = 'Your ' + (n===1 ? 'phone is' : n + ' phones are') + ' on the way';
+  var d = $('delivery'), bar = d.querySelector('.bar i');
+  bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = '';
+  d.classList.add('show');
+  clearTimeout(dTimer);
+  dTimer = setTimeout(function(){ $('dTitle').textContent = 'Order confirmed ✓'; $('dText').textContent = 'Arriving tomorrow'; }, 3600);
+  setTimeout(function(){ cart = []; hist = []; updateBadge(false); }, 400);
 }
-
-document.getElementById('cartOverlay').addEventListener('click',function(e){ if(e.target===this)this.classList.remove('active'); });
-document.getElementById('deliveryOverlay').addEventListener('click',function(){ this.classList.remove('active'); });
+function closeDelivery(){ $('delivery').classList.remove('show'); clearTimeout(dTimer); }
 </script>
 </body>
 </html>
