@@ -3,336 +3,321 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Buy Now Pay Later</title>
+<title>Sme Phone Pack</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#F4F0FF; --card:#FFFFFF; --soft:#F1EBFF; --line:#E7DFFB; --ink:#1B1035; --ink-2:#7A6F98;
-  --purple:#7C3AED; --purple-d:#4C1D95; --grad:linear-gradient(135deg,#9B5CFF 0%,#6D28D9 100%);
-  --ok:#16A36B; --no:#E5484D;
+  --bg:#0A0614; --card:#140C24; --card-2:#1C1233; --line:#2E2050; --ink:#F5EEFF; --ink-2:#9C8DC2;
+  --cyan:#B266FF; --pink:#FF4FD8; --violet:#7A3CFF;
+  --neon:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-  color-scheme:light;
+  color-scheme:dark;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{height:100%}
-body{height:100%;font-family:'Onest',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);overflow:hidden;
-  background:radial-gradient(120% 60% at 50% 0%,#E9DDFF 0%,var(--bg) 60%)}
+body{height:100%;color:var(--ink);font-family:'Space Grotesk',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;overflow:hidden;
+  background:radial-gradient(70% 40% at 15% 0%,rgba(178,102,255,.16),transparent 70%),radial-gradient(70% 45% at 100% 100%,rgba(255,79,216,.16),transparent 70%),var(--bg)}
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
-button:focus-visible{outline:2px solid var(--purple);outline-offset:3px;border-radius:12px}
+button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:10px}
 
 .app{position:relative;max-width:440px;height:100%;margin:0 auto;display:flex;flex-direction:column;overflow:hidden}
 
 /* header */
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 4px}
-.brand{display:flex;align-items:center;gap:10px}
-.logo{width:38px;height:38px;border-radius:12px;background:var(--grad);display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;box-shadow:0 8px 18px -8px rgba(109,40,217,.7)}
-.brand b{font-size:18px;font-weight:800;letter-spacing:-.3px;display:block;line-height:1.1}
-.brand small{font-size:12px;color:var(--ink-2)}
-.progress{font-size:13px;font-weight:700;color:var(--purple-d);background:var(--card);border:1px solid var(--line);padding:7px 12px;border-radius:20px}
-.hint{padding:6px 18px 0;font-size:13.5px;color:var(--ink-2)}
+.header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;flex-shrink:0;
+  background:rgba(16,14,28,.75);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);position:relative}
+.header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--neon);opacity:.7;box-shadow:0 0 12px var(--violet)}
+.header button{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;border:1px solid var(--line);background:var(--card)}
+.header svg{width:20px;height:20px}
+.brand{font-size:12.5px;font-weight:700;letter-spacing:1.6px;text-align:center;background:var(--neon);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 8px rgba(122,60,255,.6))}
 
-/* stack */
-.card-area{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 24px 0;min-height:0}
-.stack{position:relative;width:100%;max-width:330px;aspect-ratio:3/4.1;max-height:100%}
-.pcard{position:absolute;inset:0;background:var(--card);border-radius:28px;overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:0 22px 44px -22px rgba(76,29,149,.45),0 0 0 1px var(--line);touch-action:none;cursor:grab;
-  transition:transform .35s cubic-bezier(.2,.8,.2,1),opacity .35s;user-select:none;-webkit-user-select:none}
-.pcard:active{cursor:grabbing}
-.pcard .shot{flex:1;min-height:0;display:grid;place-items:center;background:radial-gradient(80% 70% at 50% 40%,#F3ECFF 0%,#E4D6FF 100%);position:relative}
-.pcard .shot img,.pcard .shot svg{height:82%;max-width:80%;object-fit:contain;pointer-events:none;filter:drop-shadow(0 18px 20px rgba(76,29,149,.3))}
-/* телефони 3–6 менші, щоб не виходили за межі */
-#c2 .shot img,#c4 .shot img,#c5 .shot img{height:46%;max-width:44%}
-#c3 .shot img{height:38%;max-width:36%}
-.pcard .tag{position:absolute;left:14px;top:14px;font-size:11.5px;font-weight:700;color:#fff;background:var(--purple);padding:5px 10px;border-radius:10px}
-.pcard .info{padding:14px 18px 16px}
-.pcard .info b{font-size:20px;font-weight:800;letter-spacing:-.4px}
-.pcard .info .row{display:flex;justify-content:space-between;align-items:baseline;margin-top:4px}
-.pcard .info small{font-size:13px;color:var(--ink-2)}
-.pcard .info strong{font-size:18px;font-weight:800}
-.pcard .bnpl{margin-top:10px;font-size:12.5px;color:var(--purple-d);background:var(--soft);border-radius:10px;padding:8px 10px;font-weight:600}
-.stamp{position:absolute;top:26px;font-size:22px;font-weight:900;letter-spacing:2px;padding:4px 12px;border-radius:12px;border:4px solid;opacity:0;pointer-events:none;z-index:3;background:rgba(255,255,255,.85)}
-.stamp.add{left:18px;color:var(--ok);border-color:var(--ok);transform:rotate(-16deg)}
-.stamp.skip{right:18px;color:var(--no);border-color:var(--no);transform:rotate(16deg)}
+.scroll{flex:1;overflow-y:auto;padding:14px 14px 112px}
 
-.done{position:absolute;inset:0;background:var(--card);border-radius:28px;display:none;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px;
-  box-shadow:0 22px 44px -22px rgba(76,29,149,.45),0 0 0 1px var(--line);animation:pop .4s cubic-bezier(.3,1.5,.5,1)}
-.done.show{display:flex}
-.done .big{font-size:56px}
-.done h2{font-size:22px;font-weight:800;margin-top:10px}
-.done p{font-size:14px;color:var(--ink-2);margin-top:6px}
-.done .btn{margin-top:18px;width:100%}
-.done .link{margin-top:10px;font-size:14px;font-weight:600;color:var(--purple)}
-@keyframes pop{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+/* search */
+.search{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:0 14px;transition:border-color .2s,box-shadow .2s}
+.search:focus-within{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan),0 0 18px -2px rgba(178,102,255,.5)}
+.search svg{width:17px;height:17px;color:var(--ink-2);flex-shrink:0}
+.search input{flex:1;border:none;background:none;font:inherit;font-size:14.5px;color:var(--ink);padding:12px 0;outline:none}
 
-/* action buttons */
-.actions{display:flex;justify-content:center;align-items:center;gap:22px;padding:18px 0 14px}
-.act{width:62px;height:62px;border-radius:50%;background:var(--card);display:grid;place-items:center;box-shadow:0 12px 24px -12px rgba(76,29,149,.5),0 0 0 1px var(--line);transition:transform .15s}
-.act:active{transform:scale(.9)}
-.act svg{width:26px;height:26px}
-.act.skip{color:var(--no)}
-.act.add{width:72px;height:72px;background:var(--grad);color:#fff;box-shadow:0 14px 26px -10px rgba(109,40,217,.75)}
-.act.add svg{width:30px;height:30px}
-.act.undo{width:48px;height:48px;color:var(--ink-2)}
-.act.undo svg{width:20px;height:20px}
-.act:disabled{opacity:.35;pointer-events:none}
+/* grid */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.h-card{position:relative;background:linear-gradient(160deg,var(--card-2),var(--card));border:1px solid var(--line);border-radius:20px;padding:10px 10px 14px;text-align:left;overflow:hidden;
+  box-shadow:0 14px 30px -18px rgba(0,0,0,.9);opacity:0;transform:translateY(14px);animation:enter .45s cubic-bezier(.2,.8,.2,1) forwards;transition:transform .15s,border-color .25s,box-shadow .25s}
+.h-card:hover,.h-card:active{border-color:rgba(178,102,255,.6);box-shadow:0 0 0 1px rgba(178,102,255,.35),0 0 26px -6px rgba(178,102,255,.55)}
+.h-card:active{transform:scale(.97)}
+@keyframes enter{to{opacity:1;transform:none}}
+.h-card .pic{position:relative;height:110px;display:grid;place-items:center}
+.h-card .pic::before{content:"";position:absolute;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,var(--glow,rgba(122,60,255,.55)),transparent 70%);filter:blur(6px);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{transform:scale(1.15);opacity:.7}}
+.h-card .pic img,.h-card .pic svg{position:relative;max-width:78%;max-height:90%;object-fit:contain;filter:drop-shadow(0 10px 14px rgba(0,0,0,.7))}
+.h-card b{display:block;font-size:14.5px;font-weight:700;margin-top:8px;padding-left:4px}
+.h-card small{display:block;font-size:12px;color:var(--ink-2);margin-top:2px;padding-left:4px}
+.badge{position:absolute;left:10px;top:10px;font-size:10.5px;font-weight:700;letter-spacing:.6px;padding:4px 8px;border-radius:8px;z-index:1;
+  color:var(--cyan);border:1px solid rgba(178,102,255,.6);background:rgba(178,102,255,.08);box-shadow:0 0 10px -2px rgba(178,102,255,.6)}
+.badge.pink{color:var(--pink);border-color:rgba(255,79,216,.6);background:rgba(255,79,216,.08);box-shadow:0 0 10px -2px rgba(255,79,216,.6)}
+.empty{grid-column:1/-1;text-align:center;color:var(--ink-2);padding:40px 0;font-size:14px}
 
-/* tab bar */
-.tabbar{display:flex;background:var(--card);border-top:1px solid var(--line);padding:8px 8px 10px;flex-shrink:0}
-.tab{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;color:var(--ink-2);font-weight:500}
-.tab svg{width:23px;height:23px}
-.tab.on{color:var(--purple);font-weight:700}
-.badge{position:absolute;top:-4px;left:calc(50% + 4px);min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--no);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center;border:2px solid var(--card);transform:scale(0);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
-.badge.on{transform:scale(1)}
-.tab.bump svg{animation:bump .45s ease}
-@keyframes bump{30%{transform:scale(1.3) rotate(-10deg)}60%{transform:scale(.9)}}
+/* detail */
+#detail{display:none}
+#detail.show{display:block;animation:enter .35s ease forwards}
+.hero{position:relative;height:220px;display:flex;justify-content:center;align-items:center;margin-top:8px}
+.hero .one{position:relative;z-index:1;width:62%;height:100%;display:grid;place-items:center;transition:transform .4s}
+.hero.duo .one{width:46%}
+.hero.duo .one:first-child{transform:rotate(-7deg) translateX(8%)}
+.hero.duo .one:last-child{transform:rotate(7deg) translateX(-8%)}
+.hero.duo .one:last-child img,.hero.duo .one:last-child svg{animation-delay:0s,1.4s}
+.hero::before{content:"";position:absolute;width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,var(--glow,rgba(122,60,255,.6)),transparent 68%);filter:blur(10px);animation:pulse 3s ease-in-out infinite}
+.hero::after{content:"";position:absolute;bottom:14px;width:150px;height:14px;border-radius:50%;background:rgba(0,0,0,.7);filter:blur(6px)}
+.hero img,.hero svg{position:relative;z-index:1;max-width:100%;max-height:88%;object-fit:contain;filter:drop-shadow(0 18px 22px rgba(0,0,0,.8));animation:heroIn .55s cubic-bezier(.2,.8,.2,1),hover 4s ease-in-out .6s infinite}
+@keyframes heroIn{from{transform:scale(.88) translateY(12px);opacity:0}}
+@keyframes hover{50%{transform:translateY(-6px)}}
+.d-name{font-size:22px;font-weight:700;letter-spacing:-.3px;padding:6px 4px 0}
+.d-specs{font-size:13px;color:var(--ink-2);padding:4px 4px 0}
+.feats{display:flex;gap:6px;flex-wrap:wrap;padding:12px 4px 0}
+.feats span{font-size:12px;color:var(--ink);border:1px solid var(--line);background:var(--card);border-radius:20px;padding:6px 10px}
+.box{background:linear-gradient(160deg,var(--card-2),var(--card));border:1px solid var(--line);border-radius:20px;padding:16px;margin-top:16px;box-shadow:0 18px 30px -20px rgba(0,0,0,.9)}
+.box h3{font-size:16px;font-weight:700;margin-bottom:12px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg button{background:var(--card-2);border:1px solid var(--line);border-radius:14px;padding:13px 4px 11px;font-size:14px;font-weight:600;line-height:1.15;transition:all .25s;transform-origin:center}
+.seg button:active{transform:scale(.96)}
+.seg button small{display:block;font-size:11px;color:var(--ink-2);font-weight:500;margin-top:4px}
+.seg button.on{border-color:var(--cyan);color:#fff;background:rgba(178,102,255,.1);box-shadow:0 0 0 1px var(--cyan),0 0 22px -4px rgba(178,102,255,.75),inset 0 0 14px -6px rgba(178,102,255,.8)}
+.seg button.on small{color:var(--cyan)}
 
-/* sheet */
-.scrim{position:absolute;inset:0;background:rgba(27,16,53,.45);opacity:0;pointer-events:none;transition:opacity .25s;z-index:50;backdrop-filter:blur(3px)}
-.scrim.open{opacity:1;pointer-events:auto}
-.sheet{position:absolute;left:0;right:0;bottom:0;max-height:85%;background:var(--card);border-radius:28px 28px 0 0;z-index:51;
-  transform:translateY(105%);transition:transform .38s cubic-bezier(.2,.8,.2,1);display:flex;flex-direction:column;padding:10px 18px 18px}
-.sheet.open{transform:none}
-.grab{width:42px;height:5px;border-radius:5px;background:var(--line);margin:0 auto 14px}
-.sheet h2{font-size:24px;font-weight:800;letter-spacing:-.5px}
-.items{overflow-y:auto;margin:14px 0 6px;flex:1}
-.ci{display:flex;align-items:center;gap:12px;background:var(--soft);border-radius:18px;padding:10px;margin-bottom:8px;animation:pop .3s ease}
-.ci .th{width:54px;height:62px;border-radius:12px;background:#fff;display:grid;place-items:center;flex-shrink:0}
-.ci .th img,.ci .th svg{height:54px;max-width:46px;object-fit:contain}
-.ci .mid{flex:1}
-.ci b{font-size:15px;display:block}
-.ci small{font-size:12.5px;color:var(--ink-2)}
-.ci .p{font-weight:800;text-align:right}
-.ci .x{display:block;margin:3px 0 0 auto;font-size:12px;color:var(--no);font-weight:600}
-.empty{text-align:center;color:var(--ink-2);padding:30px 0;font-size:14px}
-.empty div{font-size:40px;margin-bottom:8px}
-.plan{background:var(--soft);border-radius:16px;padding:12px 14px}
-.plan .lbl{font-size:13px;color:var(--ink-2);margin-bottom:10px}
-.plan .lbl b{color:var(--ink)}
-.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
-.step{text-align:center;font-size:11.5px;color:var(--ink-2)}
-.step i{display:block;height:5px;border-radius:5px;background:var(--line);margin-bottom:6px}
-.step.now i{background:var(--purple)}
-.step b{display:block;font-size:13px;color:var(--ink);margin-top:1px}
-.tot{display:flex;justify-content:space-between;align-items:baseline;padding:12px 2px 0}
-.tot span{color:var(--ink-2);font-size:14px}
-.tot b{font-size:21px;font-weight:800}
-.btn{width:100%;margin-top:12px;background:var(--grad);color:#fff;border-radius:18px;padding:17px;font-size:16.5px;font-weight:800;letter-spacing:.3px;transition:transform .12s,opacity .2s;box-shadow:0 14px 26px -14px rgba(109,40,217,.8)}
-.btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.4}
+/* bottom bar */
+.bottom{position:absolute;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));display:flex;align-items:center;gap:8px;z-index:20}
+.round{width:46px;height:46px;border-radius:50%;background:var(--card);border:1px solid var(--line);display:grid;place-items:center;flex-shrink:0;box-shadow:0 10px 20px -10px rgba(0,0,0,.9);transition:transform .12s,opacity .2s}
+.round:active{transform:scale(.94)}
+.round svg{width:20px;height:20px}
+.round.dim{opacity:.35;pointer-events:none}
+.pill{position:relative;flex:1;transition:transform .12s,box-shadow .3s;height:50px;border-radius:25px;background:var(--card);display:flex;align-items:center;justify-content:center;gap:10px;padding:0 14px;
+  box-shadow:0 0 22px -6px rgba(122,60,255,.8),0 12px 24px -12px rgba(0,0,0,.9)}
+.pill::before{content:"";position:absolute;inset:0;border-radius:25px;padding:1.5px;background:var(--neon);background-size:200% 100%;animation:flow 4s linear infinite;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+@keyframes flow{to{background-position:200% 0}}
+.pill svg{width:20px;height:20px;flex-shrink:0;color:var(--cyan);filter:drop-shadow(0 0 6px var(--cyan))}
+.pill span{font-size:11.5px;font-weight:700;letter-spacing:1.2px;text-align:center}
+.pill .eq{display:flex;gap:2px;align-items:flex-end;height:16px;flex-shrink:0}
+.pill .eq i{width:3px;background:var(--pink);border-radius:2px;box-shadow:0 0 6px var(--pink);animation:eq 1s ease-in-out infinite}
+.pill .eq i:nth-child(2){animation-delay:.2s}.pill .eq i:nth-child(3){animation-delay:.4s}
+@keyframes eq{0%,100%{height:4px}50%{height:16px}}
 
-/* delivery */
-#delivery{position:absolute;inset:0;z-index:80;display:flex;align-items:center;justify-content:center;padding:28px;
-  background:rgba(124,58,237,.12);backdrop-filter:blur(0);-webkit-backdrop-filter:blur(0);opacity:0;pointer-events:none;transition:opacity .35s,backdrop-filter .35s,-webkit-backdrop-filter .35s}
-#delivery.show{opacity:1;pointer-events:auto;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
-.dbox{width:100%;max-width:320px;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:28px;padding:26px 22px;text-align:center;
-  box-shadow:0 30px 60px -30px rgba(76,29,149,.6);transform:scale(.8);transition:transform .45s cubic-bezier(.3,1.5,.5,1)}
-#delivery.show .dbox{transform:none}
-.road{position:relative;height:84px;overflow:hidden;margin-bottom:12px}
-.road::after{content:"";position:absolute;left:0;right:0;bottom:10px;height:3px;background:repeating-linear-gradient(90deg,#C9B6F5 0 22px,transparent 22px 40px);animation:dash .45s linear infinite}
-@keyframes dash{to{background-position:-40px 0}}
-.car{position:absolute;bottom:14px;left:50%;font-size:58px;line-height:1;transform:translateX(-50%) scaleX(-1);animation:bounce .3s ease-in-out infinite alternate}
-@keyframes bounce{to{transform:translateX(-50%) scaleX(-1) translateY(-3px)}}
-.dbox h2{font-size:24px;font-weight:800}
-.dbox p{font-size:13.5px;color:var(--ink-2);margin-top:4px}
-.bar{height:6px;border-radius:6px;background:var(--line);margin-top:18px;overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--grad);border-radius:6px}
-#delivery.show .bar i{animation:load 3.6s linear forwards}
-@keyframes load{to{width:100%}}
+/* delivery overlay */
+#overlay{position:absolute;inset:0;z-index:50;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:rgba(6,5,13,.45);backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);opacity:0;pointer-events:none;
+  transition:opacity .35s,backdrop-filter .35s,-webkit-backdrop-filter .35s}
+#overlay.show{opacity:1;pointer-events:auto;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.sticker{position:relative;width:210px;max-width:60%;transform:scale(0) rotate(-20deg)}
+.sticker::before{content:"";position:absolute;inset:-20%;border-radius:50%;background:radial-gradient(circle,rgba(178,102,255,.45),rgba(255,79,216,.25) 45%,transparent 70%);filter:blur(14px);animation:pulse 2.4s ease-in-out infinite}
+#overlay.show .sticker{animation:stickerIn .7s cubic-bezier(.3,1.6,.5,1) .15s forwards,float 2.4s ease-in-out .9s infinite}
+.sticker img{position:relative;width:100%;display:block;filter:drop-shadow(0 18px 24px rgba(0,0,0,.6))}
+.sticker .fallback{position:relative;font-size:130px;line-height:1;text-align:center}
+@keyframes stickerIn{0%{transform:scale(0) rotate(-20deg)}70%{transform:scale(1.08) rotate(4deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-10px) rotate(-3deg)}}
+.ov-text{margin-top:26px;text-align:center;opacity:0;transform:translateY(8px);transition:.4s .6s}
+#overlay.show .ov-text{opacity:1;transform:none}
+.ov-text b{display:block;font-size:21px;font-weight:700;text-shadow:0 0 16px rgba(178,102,255,.7)}
+.ov-text small{display:block;font-size:13.5px;color:var(--ink-2);margin-top:5px}
+
+/* multi-select */
+.pick-row{display:flex;justify-content:space-between;align-items:center;margin:14px 4px 0;font-size:13px;color:var(--ink-2)}
+.pick-row b{color:var(--cyan);text-shadow:0 0 8px rgba(178,102,255,.6)}
+.pick-row button{font-size:12.5px;color:var(--pink);font-weight:600;opacity:0;pointer-events:none;transition:opacity .2s}
+.pick-row button.on{opacity:1;pointer-events:auto}
+.h-card .check{position:absolute;right:10px;top:10px;width:24px;height:24px;border-radius:50%;border:1.5px solid #3A3460;background:rgba(6,5,13,.6);display:grid;place-items:center;z-index:2;transition:.25s;color:#06050D}
+.h-card .check svg{width:13px;height:13px;opacity:0;transform:scale(.4);transition:.25s}
+.h-card.sel{border-color:var(--cyan);box-shadow:0 0 0 1px var(--cyan),0 0 28px -4px rgba(178,102,255,.7)}
+.h-card.sel .check{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.h-card.sel .check svg{opacity:1;transform:none}
+.h-card .num{position:absolute;right:40px;top:12px;font-size:11px;font-weight:700;color:var(--cyan);opacity:0;transition:.25s}
+.h-card.sel .num{opacity:1}
+.h-card.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-5px)}40%,80%{transform:translateX(5px)}}
+.pill.ready{cursor:pointer;box-shadow:0 0 30px -4px rgba(178,102,255,.9),0 12px 24px -12px rgba(0,0,0,.9)}
+.pill.ready:active{transform:scale(.97)}
+.pill.ready span{color:#fff}
+.toast{position:absolute;left:50%;bottom:84px;transform:translate(-50%,16px);background:var(--card-2);border:1px solid var(--pink);font-size:13px;padding:9px 14px;border-radius:14px;
+  box-shadow:0 0 18px -4px rgba(255,79,216,.7);opacity:0;transition:.3s;z-index:30;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
 
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
 </head>
 <body>
 <div class="app">
-  <header class="topbar">
-    <div class="brand"><div class="logo">BN</div><div><b>Buy Now Pay Later</b><small>Pay in 4 · no interest</small></div></div>
-    <span class="progress" id="progress">1 / 6</span>
+  <header class="header">
+    <button aria-label="Menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h11M4 17h16"/></svg></button>
+    <span class="brand">SME PHONE PACK</span>
+    <button aria-label="Filters"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button>
   </header>
-  <p class="hint">Swipe right to add, left to skip</p>
 
-  <div class="card-area">
-    <div class="stack" id="stack">
-      <div class="done" id="done">
-        <div class="big">🎉</div>
-        <h2>All phones reviewed</h2>
-        <p id="doneText">Your picks are waiting in the cart</p>
-        <button class="btn" onclick="openCart()">Open cart</button>
-        <button class="link" onclick="restart()">Start over</button>
+  <main class="scroll" id="scroll">
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="q" type="search" placeholder="Search phones" autocomplete="off">
+    </label>
+
+    <section id="list">
+      <div class="pick-row"><span>Select up to 2 items · <b id="pickCount">0 / 2</b></span><button id="clearBtn" onclick="clearSel()">Clear</button></div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <section id="detail">
+      <div class="hero" id="hero"></div>
+      <div class="d-name" id="dName"></div>
+      <div class="d-specs" id="dSpecs"></div>
+      <div class="feats" id="dFeats"></div>
+      <div class="box">
+        <h3>Choose delivery day</h3>
+        <div class="seg" id="days"></div>
       </div>
+    </section>
+  </main>
+
+  <div class="bottom">
+    <button class="round dim" id="backBtn" onclick="back()" aria-label="Back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg></button>
+    <div class="pill" id="pill" onclick="goNext()" role="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"><rect x="6" y="2.5" width="12" height="19" rx="3"/><path d="M10.5 5.5h3M11 18.5h2"/></svg>
+      <span id="pillText">SME PHONE PACK</span>
+      <span class="eq"><i></i><i></i><i></i></span>
     </div>
+    <button class="round" aria-label="More"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button>
   </div>
 
-  <div class="actions">
-    <button class="act undo" id="undoBtn" onclick="undo()" aria-label="Undo" disabled><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
-    <button class="act skip" id="skipBtn" onclick="decide(false)" aria-label="Skip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
-    <button class="act add" id="addBtn" onclick="decide(true)" aria-label="Add to cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
-  </div>
+  <div class="toast" id="toast">You can select up to 2 items</div>
 
-  <nav class="tabbar">
-    <button class="tab on"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Shop</button>
-    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>Search</button>
-    <button class="tab" id="cartTab" onclick="openCart()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18M16 10a4 4 0 0 1-8 0"/></svg><span class="badge" id="badge">0</span>Cart</button>
-    <button class="tab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Profile</button>
-  </nav>
-
-  <div class="scrim" id="scrim" onclick="closeCart()"></div>
-  <section class="sheet" id="sheet" aria-label="Cart">
-    <div class="grab"></div>
-    <h2>Your cart</h2>
-    <div class="items" id="items"></div>
-    <button class="btn" id="payBtn" onclick="payLater()">CLAIM</button>
-  </section>
-
-  <div id="delivery" onclick="closeDelivery()">
-    <div class="dbox">
-      <div class="road"><div class="car">🚗</div></div>
-      <h2 id="dTitle">Delivering…</h2>
-      <p id="dText">Your phones are on the way</p>
-      <div class="bar"><i></i></div>
-    </div>
+  <div id="overlay" onclick="closeOverlay()">
+    <div class="sticker"><img src="d.png" alt="Delivery" onerror="this.outerHTML='<div class=&quot;fallback&quot;>🚚</div>'"></div>
+    <div class="ov-text"><b>Delivery booked</b><small id="ovText"></small></div>
   </div>
 </div>
 
 <script>
-// Фото: phone1.png … phone6.png у тій самій папці, що й index.html
-var phones = [
-  {name:'iPhone 15 Pro', src:'phone1.png', mem:'256 GB · Natural Titanium', price:999, tag:'Bestseller', c:'#8E8A84'},
-  {name:'iPhone 15',     src:'phone2.png', mem:'128 GB · Pink',             price:799, tag:null, c:'#F2C6D0'},
-  {name:'iPhone 14 Pro', src:'phone3.png', mem:'256 GB · Deep Purple',      price:899, tag:null, c:'#5B4B7A'},
-  {name:'iPhone 14',     src:'phone4.png', mem:'128 GB · Midnight',         price:699, tag:'−15%', c:'#2A2D36'},
-  {name:'iPhone 13',     src:'phone5.png', mem:'128 GB · Starlight',        price:599, tag:null, c:'#EDE6DA'},
-  {name:'iPhone SE',     src:'phone6.png', mem:'64 GB · Red',               price:429, tag:'Budget', c:'#C8323C'}
+// Фото телефонів: phone1.png … phone6.png, стікер доставки: d.png — у тій самій папці, що й index.html
+var IMG_PATH = '';
+
+var items = [
+  {id:1, name:'Nova X Pro',     type:'Flagship',  specs:'6.7″ AMOLED 120 Hz · 200 MP camera · 5,000 mAh', feats:['200 MP','120 Hz','5G'], badge:'New', glow:'rgba(178,102,255,.6)'},
+  {id:2, name:'Pulse 15 Ultra', type:'Gaming',    specs:'6.8″ AMOLED 165 Hz · cooling chamber · 6,000 mAh', feats:['165 Hz','Game mode','Fast charge'], badge:'Hot', glow:'rgba(255,79,216,.55)'},
+  {id:3, name:'Aura Fold Z',    type:'Foldable',  specs:'7.6″ folding display · 50 MP · 4,400 mAh', feats:['Foldable','Dual screen','Pen support'], badge:'Hot', glow:'rgba(122,60,255,.65)'},
+  {id:4, name:'Volt Mini 5G',   type:'Compact',   specs:'5.9″ OLED · 50 MP · 4,200 mAh', feats:['Compact','5G','eSIM'], badge:null, glow:'rgba(178,102,255,.55)'},
+  {id:5, name:'Titan Max Pro',  type:'Battery',   specs:'6.9″ OLED · 108 MP · 7,000 mAh', feats:['7,000 mAh','2‑day battery','Reverse charging'], badge:'New', glow:'rgba(255,79,216,.5)'},
+  {id:6, name:'Edge Lite S',    type:'Everyday',  specs:'6.5″ OLED 90 Hz · 64 MP · 5,000 mAh', feats:['Dual SIM','NFC','Lightweight'], badge:null, glow:'rgba(122,60,255,.55)'}
 ];
-var idx = 0, cart = [], hist = [], busy = false;
+var selected = [], view = 'list', toastT;
 var $ = function(id){ return document.getElementById(id); };
-var money = function(v){ return '$' + v.toLocaleString('en-US', {minimumFractionDigits: v % 1 ? 2 : 0, maximumFractionDigits:2}); };
+var byId = function(id){ return items.filter(function(h){ return h.id === id; })[0]; };
 
-function phoneSVG(c){
-  return '<svg viewBox="0 0 80 160"><rect x="4" y="2" width="72" height="156" rx="14" fill="'+c+'"/><rect x="8" y="6" width="64" height="148" rx="11" fill="#0E0B18"/>' +
-    '<rect x="30" y="12" width="20" height="6" rx="3" fill="#000"/><rect x="12" y="26" width="56" height="40" rx="8" fill="#3B2A6B" opacity=".8"/></svg>';
+// Запасний малюнок, якщо phoneN.png не знайдено
+function hpSVG(){
+  return '<svg viewBox="0 0 80 150" fill="none"><rect x="6" y="3" width="68" height="144" rx="14" fill="#1C1233" stroke="url(#ng)" stroke-width="3"/>' +
+    '<rect x="11" y="8" width="58" height="134" rx="10" fill="#0D0819"/><rect x="31" y="13" width="18" height="5" rx="2.5" fill="#000"/>' +
+    '<rect x="16" y="26" width="48" height="36" rx="8" fill="url(#ng)" opacity=".35"/>' +
+    '<defs><linearGradient id="ng" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#C77DFF"/><stop offset=".5" stop-color="#7A3CFF"/><stop offset="1" stop-color="#FF4FD8"/></linearGradient></defs></svg>';
 }
-function img(p){ return '<img src="'+p.src+'" alt="'+p.name+'" onerror="this.outerHTML=phoneSVG(\''+p.c+'\')">'; }
+function hpImg(h){ return '<img src="'+IMG_PATH+'phone'+h.id+'.png" alt="'+h.name+'" onerror="this.outerHTML=hpSVG()">'; }
 
-// build stack
-var stack = $('stack');
-phones.forEach(function(p, i){
-  var el = document.createElement('div');
-  el.className = 'pcard'; el.id = 'c'+i;
-  el.innerHTML = '<div class="shot">'+(p.tag?'<span class="tag">'+p.tag+'</span>':'')+img(p)+'</div>' +
-    '<div class="info"><b>'+p.name+'</b><div class="row"><small>'+p.mem+'</small></div></div>' +
-    '<div class="stamp add">ADD</div><div class="stamp skip">SKIP</div>';
-  stack.appendChild(el);
-  bindDrag(el, i);
-});
-layout();
+function renderGrid(){
+  var q = $('q').value.trim().toLowerCase();
+  var list = items.filter(function(h){ return (h.name + ' ' + h.type).toLowerCase().indexOf(q) > -1; });
+  $('grid').innerHTML = list.length ? list.map(function(h, i){
+    var k = selected.indexOf(h.id);
+    return '<button class="h-card'+(k>-1?' sel':'')+'" id="hc'+h.id+'" style="animation-delay:'+(i*60)+'ms;--glow:'+h.glow+'" onclick="toggleItem('+h.id+')">' +
+      (h.badge ? '<span class="badge'+(h.badge==='New'?'':' pink')+'">'+h.badge+'</span>' : '') +
+      '<span class="num">'+(k>-1?'#'+(k+1):'')+'</span>' +
+      '<span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 5 5 9-10"/></svg></span>' +
+      '<div class="pic">'+hpImg(h)+'</div><b>'+h.name+'</b><small>'+h.type+'</small></button>';
+  }).join('') : '<div class="empty">No phones found</div>';
+}
 
-function layout(){
-  phones.forEach(function(p, i){
-    var el = $('c'+i), d = i - idx;
-    if (d < 0){ el.style.display = 'none'; return; }
-    el.style.display = d > 2 ? 'none' : '';
-    el.style.zIndex = 10 - d;
-    el.style.transform = 'translateY('+(d*14)+'px) scale('+(1 - d*.05)+')';
-    el.style.opacity = d === 2 ? .6 : 1;
-    el.style.pointerEvents = d === 0 ? 'auto' : 'none';
+function toggleItem(id){
+  var k = selected.indexOf(id), card = $('hc'+id);
+  if (k > -1) selected.splice(k, 1);
+  else if (selected.length >= 2){
+    card.classList.remove('shake'); void card.offsetWidth; card.classList.add('shake');
+    showToast(); return;
+  } else selected.push(id);
+  document.querySelectorAll('.h-card').forEach(function(c){
+    var cid = +c.id.slice(2), n = selected.indexOf(cid);
+    c.classList.toggle('sel', n > -1);
+    c.querySelector('.num').textContent = n > -1 ? '#' + (n + 1) : '';
   });
-  $('progress').textContent = Math.min(idx + 1, phones.length) + ' / ' + phones.length;
-  var finished = idx >= phones.length;
-  $('done').classList.toggle('show', finished);
-  if (finished) $('doneText').textContent = cart.length ? 'You picked ' + cart.length + (cart.length===1?' phone':' phones') + ' — they’re in your cart' : 'Nothing picked yet — start over to browse again';
-  $('skipBtn').disabled = $('addBtn').disabled = finished;
-  $('undoBtn').disabled = !hist.length;
+  updatePill();
+}
+function clearSel(){ selected = []; renderGrid(); updatePill(); }
+function showToast(){ var t = $('toast'); t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(function(){ t.classList.remove('show'); }, 1800); }
+
+function updatePill(){
+  var n = selected.length;
+  $('pickCount').textContent = n + ' / 2';
+  $('clearBtn').classList.toggle('on', n > 0 && view === 'list');
+  var ready = view === 'list' && n > 0;
+  $('pill').classList.toggle('ready', ready);
+  $('pillText').textContent = ready ? 'CONTINUE · ' + n + (n === 1 ? ' ITEM' : ' ITEMS') : 'SME PHONE PACK';
+}
+function goNext(){ if (view === 'list' && selected.length) openDetail(); }
+
+// delivery days with real dates
+(function(){
+  var labels = ['Today','Tomorrow','Day after tomorrow'];
+  $('days').innerHTML = labels.map(function(l, i){
+    var d = new Date(); d.setDate(d.getDate() + i);
+    var date = d.toLocaleDateString('en-US', {weekday:'short', month:'short', day:'numeric'});
+    return '<button data-v="'+l+'" data-date="'+date+'">'+l+'<small>'+date+'</small></button>';
+  }).join('');
+})();
+
+function openDetail(){
+  var sel = selected.map(byId);
+  document.querySelectorAll('#days button').forEach(function(b){ b.classList.remove('on'); });
+  var hero = $('hero');
+  hero.classList.toggle('duo', sel.length === 2);
+  hero.style.setProperty('--glow', sel[0].glow);
+  hero.innerHTML = sel.map(function(h){ return '<div class="one">'+hpImg(h)+'</div>'; }).join('');
+  $('dName').textContent = sel.map(function(h){ return h.name; }).join(' + ');
+  $('dSpecs').textContent = sel.length === 1 ? sel[0].type + ' · ' + sel[0].specs : '2 items · ' + sel.map(function(h){ return h.type; }).join(' + ');
+  var feats = [];
+  sel.forEach(function(h){ h.feats.slice(0, sel.length === 1 ? 3 : 2).forEach(function(f){ if (feats.indexOf(f) < 0) feats.push(f); }); });
+  $('dFeats').innerHTML = feats.map(function(f){ return '<span>'+f+'</span>'; }).join('');
+  view = 'detail';
+  $('list').style.display = 'none';
+  $('detail').classList.add('show');
+  $('backBtn').classList.remove('dim');
+  $('scroll').scrollTop = 0;
+  updatePill();
+}
+function back(){
+  view = 'list';
+  $('detail').classList.remove('show');
+  $('list').style.display = '';
+  $('backBtn').classList.add('dim');
+  renderGrid(); updatePill();
 }
 
-function bindDrag(el, i){
-  var sx = 0, dx = 0, down = false, moved = false;
-  function start(x){ if (i !== idx || busy) return; down = true; moved = false; sx = x; dx = 0; el.style.transition = 'none'; }
-  function move(x){
-    if (!down) return; dx = x - sx; if (Math.abs(dx) > 8) moved = true;
-    el.style.transform = 'translateX('+dx+'px) rotate('+(dx*.06)+'deg)';
-    var r = Math.min(Math.abs(dx)/90, 1);
-    el.querySelector('.stamp.add').style.opacity = dx > 0 ? r : 0;
-    el.querySelector('.stamp.skip').style.opacity = dx < 0 ? r : 0;
-  }
-  function end(){
-    if (!down) return; down = false; el.style.transition = '';
-    if (!moved){ decide(true); return; }
-    if (dx > 90) decide(true);
-    else if (dx < -90) decide(false);
-    else { el.style.transform = ''; el.querySelectorAll('.stamp').forEach(function(s){ s.style.opacity = 0; }); layout(); }
-  }
-  el.addEventListener('touchstart', function(e){ start(e.touches[0].clientX); }, {passive:true});
-  el.addEventListener('mousedown', function(e){ start(e.clientX); });
-  window.addEventListener('touchmove', function(e){ if (down) move(e.touches[0].clientX); }, {passive:true});
-  window.addEventListener('mousemove', function(e){ move(e.clientX); });
-  window.addEventListener('touchend', end);
-  window.addEventListener('mouseup', end);
+$('days').addEventListener('click', function(e){
+  var b = e.target.closest('button'); if (!b) return;
+  this.querySelectorAll('button').forEach(function(x){ x.classList.remove('on'); });
+  b.classList.add('on');
+  setTimeout(function(){ showOverlay(b); }, 350);
+});
+
+function showOverlay(day){
+  var sel = selected.map(byId);
+  $('ovText').textContent = sel.map(function(h){ return h.name; }).join(' + ') + ' · ' + day.dataset.v + ', ' + day.dataset.date;
+  var o = $('overlay'); o.classList.remove('show'); void o.offsetWidth; o.classList.add('show');
+}
+function closeOverlay(){
+  $('overlay').classList.remove('show');
+  selected = [];
+  back();
 }
 
-function decide(add){
-  if (busy || idx >= phones.length) return;
-  busy = true;
-  var el = $('c'+idx), p = phones[idx];
-  el.style.transition = 'transform .4s ease, opacity .4s ease';
-  el.querySelector('.stamp.add').style.opacity = add ? 1 : 0;
-  el.querySelector('.stamp.skip').style.opacity = add ? 0 : 1;
-  el.style.transform = 'translateX('+(add?140:-140)+'%) rotate('+(add?24:-24)+'deg)';
-  el.style.opacity = 0;
-  hist.push({i:idx, add:add});
-  if (add){ cart.push(idx); updateBadge(true); }
-  setTimeout(function(){
-    el.style.transition = 'none';
-    el.querySelectorAll('.stamp').forEach(function(s){ s.style.opacity = 0; });
-    idx++; busy = false;
-    requestAnimationFrame(function(){ phones.forEach(function(_, k){ $('c'+k).style.transition = ''; }); layout(); });
-  }, 400);
-}
-
-function undo(){
-  if (busy || !hist.length) return;
-  var h = hist.pop();
-  if (h.add) cart.splice(cart.lastIndexOf(h.i), 1);
-  idx = h.i; updateBadge(false);
-  var el = $('c'+idx); el.style.opacity = 1; layout();
-}
-function restart(){ idx = 0; hist = []; layout(); }
-
-function updateBadge(bump){
-  var b = $('badge'); b.textContent = cart.length; b.classList.toggle('on', cart.length > 0);
-  if (bump){ var t = $('cartTab'); t.classList.remove('bump'); void t.offsetWidth; t.classList.add('bump'); }
-}
-
-function renderCart(){
-  $('items').innerHTML = cart.length ? cart.map(function(i){
-    var p = phones[i];
-    return '<div class="ci"><div class="th">'+img(p)+'</div><div class="mid"><b>'+p.name+'</b><small>'+p.mem+'</small></div>' +
-      '<div><button class="x" onclick="removeItem('+i+')">Remove</button></div></div>';
-  }).join('') : '<div class="empty"><div>🛒</div>Your cart is empty.<br>Swipe right on a phone to add it.</div>';
-  $('payBtn').disabled = !cart.length;
-}
-function removeItem(i){ cart.splice(cart.indexOf(i), 1); updateBadge(false); renderCart(); }
-function openCart(){ renderCart(); $('sheet').classList.add('open'); $('scrim').classList.add('open'); }
-function closeCart(){ $('sheet').classList.remove('open'); $('scrim').classList.remove('open'); }
-
-var dTimer;
-function payLater(){
-  if (!cart.length) return;
-  closeCart();
-  var n = cart.length;
-  $('dTitle').textContent = 'Delivering…';
-  $('dText').textContent = 'Your ' + (n===1 ? 'phone is' : n + ' phones are') + ' on the way';
-  var d = $('delivery'), bar = d.querySelector('.bar i');
-  bar.style.animation = 'none'; void bar.offsetWidth; bar.style.animation = '';
-  d.classList.add('show');
-  clearTimeout(dTimer);
-  dTimer = setTimeout(function(){ $('dTitle').textContent = 'Order confirmed ✓'; $('dText').textContent = 'Arriving tomorrow'; }, 3600);
-  setTimeout(function(){ cart = []; hist = []; updateBadge(false); }, 400);
-}
-function closeDelivery(){ $('delivery').classList.remove('show'); clearTimeout(dTimer); }
+$('q').addEventListener('input', function(){ if ($('detail').classList.contains('show')) back(); renderGrid(); });
+renderGrid(); updatePill();
 </script>
 </body>
 </html>
