@@ -144,6 +144,10 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--cyan);outline-o
   box-shadow:0 0 18px -4px rgba(255,79,216,.7);opacity:0;transition:.3s;z-index:30;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1;transform:translate(-50%,0)}
 
+/* фото 3–6 значно менші */
+.h-card .pic img.p3,.h-card .pic img.p4,.h-card .pic img.p5,.h-card .pic img.p6{max-height:52%;max-width:46%}
+.hero img.p3,.hero img.p4,.hero img.p5,.hero img.p6{max-height:50%;max-width:60%}
+
 @media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important}}
 </style>
 </head>
@@ -219,7 +223,7 @@ function hpSVG(){
     '<rect x="16" y="26" width="48" height="36" rx="8" fill="url(#ng)" opacity=".35"/>' +
     '<defs><linearGradient id="ng" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#C77DFF"/><stop offset=".5" stop-color="#7A3CFF"/><stop offset="1" stop-color="#FF4FD8"/></linearGradient></defs></svg>';
 }
-function hpImg(h){ return '<img src="'+IMG_PATH+'phone'+h.id+'.png" alt="'+h.name+'" onerror="this.outerHTML=hpSVG()">'; }
+function hpImg(h){ return '<img class="p'+h.id+'" src="'+IMG_PATH+'phone'+h.id+'.png" alt="'+h.name+'" onerror="this.outerHTML=hpSVG()">'; }
 
 function renderGrid(){
   var q = $('q').value.trim().toLowerCase();
